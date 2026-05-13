@@ -2,7 +2,7 @@ name: Weekly Article Writer
 
 on:
   schedule:
-    - cron: '20 21 * * 3'  # 2:20 PM Vancouver time (PDT, UTC-7)
+    - cron: '30 21 * * 3'  # 2:20 PM Vancouver time (PDT, UTC-7)
                             # Change to '20 22 * * 3' in winter (PST, UTC-8)
   workflow_dispatch:        # also allows manual runs from GitHub Actions tab
 
