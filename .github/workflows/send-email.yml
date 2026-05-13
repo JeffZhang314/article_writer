@@ -1,0 +1,39 @@
+name: Weekly Article Writer
+
+on:
+  schedule:
+    - cron: '20 21 * * 3'  # 2:20 PM Vancouver time (PDT, UTC-7)
+                            # Change to '20 22 * * 3' in winter (PST, UTC-8)
+  workflow_dispatch:        # also allows manual runs from GitHub Actions tab
+
+jobs:
+  run-and-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install google-genai
+
+      - name: Run article writer
+        run: python article_writer.py > article.txt
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Weekly WeChat Article"
+          to: kxu@cgicconsulting.com
+          from: ${{ secrets.EMAIL_USERNAME }}
+          body: file://article.txt
