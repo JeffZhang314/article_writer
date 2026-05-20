@@ -2,7 +2,7 @@ name: Scrape CitImmCanada
 
 on:
   schedule:
-    - cron: '39 22 * * *'  # 3:39 PM PDT (UTC-7) = 22:39 UTC
+    - cron: '48 22 * * *'  # 3:39 PM PDT (UTC-7) = 22:39 UTC
 
 jobs:
   scrape:
