@@ -17,6 +17,8 @@ import json
 
 import re
 
+from pathlib import Path
+
 SCREEN_NAME = "CitImmCanada"
 MAX_POSTS = 20
 
@@ -111,14 +113,13 @@ def _try_playwright() -> list[dict]:
 
 
 def main() -> None:
-    output_path = f"{SCREEN_NAME}_posts.json"
+    script_dir = Path(__file__).parent
+    output_path = script_dir / f"{SCREEN_NAME}_posts.json"
 
     # Load existing posts
     try:
         with open(output_path, "r", encoding="utf-8") as f:
             existing_posts = json.load(f)
-            for i in existing_posts:
-                print(i)
     except (FileNotFoundError, json.JSONDecodeError):
         existing_posts = []
 
