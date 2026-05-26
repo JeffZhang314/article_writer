@@ -1,4 +1,4 @@
-name: Scrape CitImmCanada
+name: Scrape x
 
 on:
   schedule:
@@ -31,6 +31,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add CitImmCanada_posts.json
-          git diff --cached --quiet || git commit -m "chore: update CitImmCanada posts"
+          git add x_posts.json
+          git diff --cached --quiet || git commit -m "chore: update x posts"
           git push

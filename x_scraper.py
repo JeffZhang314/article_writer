@@ -19,6 +19,12 @@ import re
 
 from pathlib import Path
 
+from datetime import datetime
+
+from datetime import date
+
+from zoneinfo import ZoneInfo
+
 SCREEN_NAME = "CitImmCanada"
 MAX_POSTS = 20
 
@@ -114,7 +120,7 @@ def _try_playwright() -> list[dict]:
 
 def main() -> None:
     script_dir = Path(__file__).parent
-    output_path = script_dir / f"{SCREEN_NAME}_posts.json"
+    output_path = "x_posts.json"
 
     # Load existing posts
     try:
@@ -134,7 +140,6 @@ def main() -> None:
 
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(combined, f, ensure_ascii=False, indent=2)
-
 
 if __name__ == "__main__":
     main()
