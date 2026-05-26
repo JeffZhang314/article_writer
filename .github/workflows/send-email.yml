@@ -19,7 +19,11 @@ jobs:
           python-version: '3.14'
 
       - name: Install dependencies
-        run: pip install google-genai
+        run: |
+          pip install requests beautifulsoup4 playwright
+          python -m playwright install chromium
+          python -m playwright install-deps chromium
+          pip install google-genai
 
       - name: Run article writer
         run: python article_writer.py > article.txt
