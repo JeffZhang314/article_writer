@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.14'
 
       - name: Install dependencies
         run: |
@@ -25,7 +25,7 @@ jobs:
           python -m playwright install-deps chromium
 
       - name: Run scraper
-        run: python web_scraper.py
+        run: python x_scraper.py
 
       - name: Commit and push updated JSON
         run: |

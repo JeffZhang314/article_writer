@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.14'
 
       - name: Install dependencies
         run: pip install google-genai
@@ -36,4 +36,4 @@ jobs:
           subject: "Weekly WeChat Article"
           to: kxu@cgicconsulting.com
           from: ${{ secrets.EMAIL_USERNAME }}
-          body: file://article.txt
+          body: file://output.txt

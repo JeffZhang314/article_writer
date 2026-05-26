@@ -364,7 +364,6 @@ def main() -> None:
     output += "\nX\n\n\n"
         
     #client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    client = genai.Client(api_key="AIzaSyBWnSRNLpXJR6NvcTwb1DPoDayg2qhPNY4")
     #response = client.models.generate_content(
     #model="gemini-2.5-flash",
     #contents="hello"
