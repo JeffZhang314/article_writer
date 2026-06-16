@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.14'
 
@@ -26,6 +26,14 @@ jobs:
 
       - name: Run scraper
         run: python x_scraper.py
+
+      - name: Upload debug screenshot
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: debug-screenshot
+          path: debug_screenshot.png
+          if-no-files-found: ignore
 
       - name: Commit and push updated JSON
         run: |

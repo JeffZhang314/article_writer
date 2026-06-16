@@ -85,10 +85,18 @@ def _try_playwright() -> list[dict]:
                     except Exception:
                         pass
 
+            # ---- TEMP DEBUG: delete these 3 lines once the cause is confirmed ----
+            page.screenshot(path="debug_screenshot.png", full_page=True)
+            print(f"DEBUG title: {page.title()}", file=sys.stderr)
+            # ------------------------------------------------------------------------
+
             html = page.content()
             soup = BeautifulSoup(html, "html.parser")
 
-            for tweet_el in soup.select('[data-testid="tweet"]'):
+            tweet_els = soup.select('[data-testid="tweet"]')
+            print(f"DEBUG tweets found: {len(tweet_els)}", file=sys.stderr)  # TEMP DEBUG
+
+            for tweet_el in tweet_els:
                 text_el = tweet_el.select_one('[data-testid="tweetText"]')
                 time_el = tweet_el.select_one("time")
                 link_el = tweet_el.select_one('a[href*="/status/"]')
