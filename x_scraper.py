@@ -85,16 +85,25 @@ def _try_playwright() -> list[dict]:
                     except Exception:
                         pass
 
-            # ---- TEMP DEBUG: delete these 3 lines once the cause is confirmed ----
-            page.screenshot(path="debug_screenshot.png", full_page=True)
-            print(f"DEBUG title: {page.title()}", file=sys.stderr)
-            # ------------------------------------------------------------------------
-
+            # ---- TEMP DEBUG block — delete once the cause is confirmed ----
+            # content() captured FIRST, before a screenshot (or anything else)
+            # gets a chance to force a viewport resize and disturb the
+            # virtualized timeline.
             html = page.content()
-            soup = BeautifulSoup(html, "html.parser")
+            article_hits = html.count('<article')
+            tweet_testid_hits = html.count('data-testid="tweet"')
 
+            print(f"DEBUG title: {page.title()}", file=sys.stderr)
+            print(f"DEBUG html length: {len(html)}", file=sys.stderr)
+            print(f"DEBUG raw <article> tags: {article_hits}", file=sys.stderr)
+            print(f"DEBUG raw data-testid=tweet hits: {tweet_testid_hits}", file=sys.stderr)
+
+            soup = BeautifulSoup(html, "lxml")
             tweet_els = soup.select('[data-testid="tweet"]')
-            print(f"DEBUG tweets found: {len(tweet_els)}", file=sys.stderr)  # TEMP DEBUG
+            print(f"DEBUG parsed tweet elements: {len(tweet_els)}", file=sys.stderr)
+
+            page.screenshot(path="debug_screenshot.png", full_page=False)
+            # -----------------------------------------------------------------
 
             for tweet_el in tweet_els:
                 text_el = tweet_el.select_one('[data-testid="tweetText"]')
