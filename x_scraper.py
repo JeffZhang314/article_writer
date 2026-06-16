@@ -5,28 +5,22 @@ Scrapes up to 20 recent posts from @CitImmCanada on X (Twitter) without
 logging in using a Playwright headless browser.
 
 Dependencies:
-  pip install requests beautifulsoup4 playwright
+  pip install requests beautifulsoup4 playwright lxml
   python -m playwright install chromium
 """
 
 import sys
+import json
+import re
+from pathlib import Path
+from datetime import datetime, date
+from zoneinfo import ZoneInfo
 
 from bs4 import BeautifulSoup
 
-import json
-
-import re
-
-from pathlib import Path
-
-from datetime import datetime
-
-from datetime import date
-
-from zoneinfo import ZoneInfo
-
 SCREEN_NAME = "CitImmCanada"
 MAX_POSTS = 20
+
 
 def _try_playwright() -> list[dict]:
     try:
@@ -67,8 +61,10 @@ def _try_playwright() -> list[dict]:
                 timeout=30_000,
             )
 
+            # FIX: X removed data-testid="tweet" from article elements.
+            # Wait for <article> tags instead — they're still present.
             try:
-                page.wait_for_selector('[data-testid="tweet"]', timeout=20_000)
+                page.wait_for_selector("article", timeout=20_000)
             except PWTimeout:
                 pass
 
@@ -85,25 +81,20 @@ def _try_playwright() -> list[dict]:
                     except Exception:
                         pass
 
-            # ---- TEMP DEBUG block — delete once the cause is confirmed ----
-            # content() captured FIRST, before a screenshot (or anything else)
-            # gets a chance to force a viewport resize and disturb the
-            # virtualized timeline.
             html = page.content()
-            article_hits = html.count('<article')
-            tweet_testid_hits = html.count('data-testid="tweet"')
+            article_hits = html.count("<article")
 
             print(f"DEBUG title: {page.title()}", file=sys.stderr)
             print(f"DEBUG html length: {len(html)}", file=sys.stderr)
             print(f"DEBUG raw <article> tags: {article_hits}", file=sys.stderr)
-            print(f"DEBUG raw data-testid=tweet hits: {tweet_testid_hits}", file=sys.stderr)
 
             soup = BeautifulSoup(html, "lxml")
-            tweet_els = soup.select('[data-testid="tweet"]')
+
+            # FIX: select by <article> — X dropped data-testid="tweet"
+            tweet_els = soup.select("article")
             print(f"DEBUG parsed tweet elements: {len(tweet_els)}", file=sys.stderr)
 
             page.screenshot(path="debug_screenshot.png", full_page=False)
-            # -----------------------------------------------------------------
 
             for tweet_el in tweet_els:
                 text_el = tweet_el.select_one('[data-testid="tweetText"]')
@@ -111,16 +102,16 @@ def _try_playwright() -> list[dict]:
                 link_el = tweet_el.select_one('a[href*="/status/"]')
 
                 if text_el:
-                    for a_tag in text_el.find_all('a'):
-                        if a_tag.get('href', '').startswith('http'):
-                            joined = a_tag.get_text('', strip=True).rstrip('…')
+                    for a_tag in text_el.find_all("a"):
+                        if a_tag.get("href", "").startswith("http"):
+                            joined = a_tag.get_text("", strip=True).rstrip("…")
                             a_tag.clear()
                             a_tag.append(joined)
 
                 text = text_el.get_text(" ", strip=True) if text_el else ""
-
                 date_str = time_el.get("datetime", "") if time_el else ""
                 tweet_url = "https://x.com" + link_el["href"] if link_el else ""
+
                 posts.append({"text": text, "date": date_str, "url": tweet_url})
                 if len(posts) >= MAX_POSTS:
                     break
@@ -136,7 +127,6 @@ def _try_playwright() -> list[dict]:
 
 
 def main() -> None:
-    script_dir = Path(__file__).parent
     output_path = "x_posts.json"
 
     # Load existing posts
@@ -157,6 +147,9 @@ def main() -> None:
 
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(combined, f, ensure_ascii=False, indent=2)
+
+    print(f"Saved {len(unique_new)} new post(s). Total: {len(combined)}", file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()
