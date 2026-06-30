@@ -23,9 +23,7 @@ import time
 import requests
 from bs4 import BeautifulSoup, NavigableString
 
-from datetime import datetime
 from datetime import date
-from zoneinfo import ZoneInfo
 
 import os
 from google import genai
@@ -360,8 +358,6 @@ def main() -> None:
             for j in range(len(i["instructions"]["deleted"])):
                 output += "Deleted instruction " + str(j + 1) + ": " + i["instructions"]["deleted"][j] + "\n"
         output += "Date modified: " + date.fromisoformat(i["date_modified"]).strftime("%B %d, %Y") + "\n\n"
-
-    output += "\nX\n\n\n"
         
     #client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     #response = client.models.generate_content(
@@ -371,19 +367,6 @@ def main() -> None:
 
     #print(response.text)
 
-    output_path = "x_posts.json"
-
-    with open(output_path, 'r') as file:
-        data = json.load(file)
-
-    for i in data:
-        pacific_time = datetime.fromisoformat(i["date"]).astimezone(ZoneInfo("America/Los_Angeles"))
-        if (datetime.now(ZoneInfo("America/Los_Angeles")).date() - pacific_time.date()).days <= 7:
-            output += "URL: " + i["url"] + "\n"
-            output += "Date: " + f"{pacific_time.hour % 12 or 12}:{pacific_time:%M %p %B %d, %Y}" + "\n"
-            output += "Post: " + i["text"] + "\n\n"
-        else:
-            break
     print(output)
 
 if __name__ == "__main__":
