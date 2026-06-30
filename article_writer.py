@@ -44,6 +44,10 @@ HEADERS = {
 ROWS_PER_PAGE = 20
 OUTPUT_FILE = "pdu_details.json"
 
+# Google Doc shared as "Anyone with the link" / "Editor" – its plain text
+# is appended to the end of the script's output.
+GOOGLE_DOC_URL = "https://docs.google.com/document/d/10JIbTuk_dtZ4swG95srMYO-mtyzjplLgkkzCVu9AnnQ/edit?usp=sharing"
+
 # <h2> text values that mark the start of instructions or end of body.
 STOP_HEADINGS = {
     "updated instructions",
@@ -295,6 +299,26 @@ def fetch_pdu_details(url: str) -> dict:
         "date_modified": _get_date_modified(soup),
     }
 
+# ---------------------------------------------------------------------------
+# Google Doc scraping
+# ---------------------------------------------------------------------------
+def _extract_doc_id(doc_url: str) -> str:
+    """Pull the document ID out of any standard Google Docs URL."""
+    match = re.search(r"/d/([a-zA-Z0-9_-]+)", doc_url)
+    if not match:
+        raise ValueError(f"Could not find a document ID in: {doc_url}")
+    return match.group(1)
+def fetch_google_doc_text(doc_url: str) -> str:
+    """
+    Download the plain-text content of a Google Doc that is shared as
+    "Anyone with the link". Uses the document's built-in export endpoint,
+    so no OAuth credentials are required.
+    """
+    doc_id = _extract_doc_id(doc_url)
+    export_url = f"https://docs.google.com/document/d/{doc_id}/export?format=txt"
+    response = requests.get(export_url, headers=HEADERS, timeout=30)
+    response.raise_for_status()
+    return response.text.strip()
 
 # ---------------------------------------------------------------------------
 # Main
@@ -335,7 +359,7 @@ def main() -> None:
 
     #print(f"\nSaved {len(results)} entries to {OUTPUT_FILE}")
 
-    output = "PDU\n\n\n"
+    output = "PDU\n\n"
     for i in results:
         output += "URL: " + i["url"] + "\n"
         output += "Title: " + i["title"] + "\n"
@@ -358,6 +382,12 @@ def main() -> None:
             for j in range(len(i["instructions"]["deleted"])):
                 output += "Deleted instruction " + str(j + 1) + ": " + i["instructions"]["deleted"][j] + "\n"
         output += "Date modified: " + date.fromisoformat(i["date_modified"]).strftime("%B %d, %Y") + "\n\n"
+
+    # 4. Append the contents of the linked Google Doc.
+    try:
+        output += "X\n\n" + fetch_google_doc_text(GOOGLE_DOC_URL)
+    except Exception as exc:
+        print(f"         ERROR fetching Google Doc: {exc}")
         
     #client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     #response = client.models.generate_content(
