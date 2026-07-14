@@ -1,0 +1,121 @@
+ALL CONTEXT STARTS HERE [
+
+ALL CHINESE WECHAT ARTICLES THAT WERE ALREADY POSTED BY THE ACCOUNT STARTS HERE [
+
+INSERT ARTICLES
+
+] ALL CHINESE WECHAT ARTICLES THAT WERE ALREADY POSTED BY THE ACCOUNT ENDS HERE
+
+SUMMARY OF A GUIDE TO WRITING SUCCESSFUL CHINESE WECHAT ARTICLES STARTS HERE [
+
+INSERT GUIDE
+
+] SUMMARY OF A GUIDE TO WRITING SUCCESSFUL CHINESE WECHAT ARTICLES ENDS HERE
+
+Resource: Official IRCC X account
+Website link: https://x.com/CitImmCanada
+What to look for: All new updates.
+
+ALL X POSTS STARTS HERE [
+
+INSERT X POSTS
+
+] ALL X POSTS ENDS HERE
+
+Resource: Government of Canada Official Youtube Channel
+Website link: https://www.youtube.com/@cpac
+What to look for: Immigration.
+
+Resource: CIC News
+Website link: https://www.cicnews.com/
+What to look for: All new updates.
+
+Resource: Global News
+Website link: https://globalnews.ca/
+What to look for: Immigration policy. Immigration. Lena Metlege Diab, the Minister of Immigration, Refugees and Citizenship of Canada.
+
+Resource: CBC News
+Website link: https://www.cbc.ca/
+What to look for: Immigration policy. Immigration. Lena Metlege Diab, the Minister of Immigration, Refugees and Citizenship of Canada.
+
+Resource: Immigration News Canada
+Website link: https://immigrationnewscanada.ca/
+What to look for: All new updates. 
+
+Resource: Immigrant Services Society of BC (ISSofBC)
+Website link: https://issbc.org/
+What to look for: All new updates.
+
+Resource: Government of Canada Website
+Website link: https://www.canada.ca/en.html
+What to look for: Immigration.
+
+Resource: News: Department of Finance Canada
+Website link: https://www.canada.ca/en/department-finance/news.html
+What to look for: Immigration.
+
+Resource: Program Delivery Updates
+Website link: https://www.canada.ca/en/immigration-refugees-citizenship/corporate/publications-manuals/operational-bulletins-manuals/updates.html
+What to look for: All new updates. Visit each new link.
+
+ALL PROGRAM DELIVERY UPDATES STARTS HERE [
+
+INSERT PDU
+
+] ALL PROGRAM DELIVERY UPDATES ENDS HERE
+
+ALL PNP PROGRAM UPDATES FOR PROVINCES, TERRITORIES, OR GROUPS OF PROVINCES STARTS HERE [
+
+Region: British Columbia
+Website link(s):
+https://www.welcomebc.ca/immigrate-to-b-c/about-the-bc-provincial-nominee-program/news
+
+Region: Alberta
+Website link(s): 
+https://www.alberta.ca/aaip-updates
+https://www.alberta.ca/alberta-advantage-immigration-program
+
+Region: Saskatchewan
+Website link(s): 
+https://www.saskatchewan.ca/residents/moving-to-saskatchewan/live-in-saskatchewan/by-immigrating/saskatchewan-immigrant-nominee-program
+
+Region: Manitoba
+Website link(s):
+https://immigratemanitoba.com/
+
+Region: Ontario
+Website link(s):
+https://www.ontario.ca/page/ontario-immigrant-nominee-program-oinp
+
+Region: Quebec
+Website link(s):
+https://www.quebec.ca/immigration/permanente/travailleurs-qualifies
+
+Region: Atlantic Provinces (AIP)
+Website link(s):
+https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-
+canada/atlantic-immigration.html
+
+Region: Newfoundland and Labrador
+Website link(s):
+https://www.gov.nl.ca/immigration/immigrating-to-newfoundland-and-labrador/provincial-
+nominee-program/overview/
+
+Region: Yukon
+Website link(s):
+https://yukon.ca/en/immigration/apply-immigrate-yukon/immigrate-yukon
+
+] ALL PNP PROGRAM UPDATES FOR PROVINCES, TERRITORIES, OR GROUPS OF PROVINCES ENDS HERE
+
+] ALL CONTEXT ENDS HERE
+
+Based on the text provided above, please write an attention-grabbing, comprehensive, and engaging Chinese WeChat article summarizing one recent update to Canada's immigration policies, one recent news story related to Canada's immigration policies, or one recent big event related to Canada's immigration policies. Use the engagement to promote 嘉耀咨询 (AKA CGIC Consulting) and successful cases it has managed. Descriptions of successful cases can be found among the 32 articles.
+
+To ensure the article is highly successful and aligns perfectly with the account's standards, please follow these explicit instructions:
+
+1. **Content and Style Alignment:** Thoroughly read the 32 provided Chinese WeChat articles that were already posted by the account. Analyze their very short titles, specific tone, voice, structural tendencies, and vocabulary choices. Your newly written article must seamlessly match this established brand identity to maintain content and style consistency for the readers.
+2. **Operational Success Strategy:** Review the provided summary of the guide to writing successful Chinese WeChat articles. Integrate its core philosophies into your writing strategy—such as putting user value first, providing actionable solutions, creating high social currency for sharing (the article must be helpful to the maximum number of people), and creating a very short title and framing the content to instantly grab attention and suit mobile reading habits.
+3. **Information Sourcing and Synthesis:** Accurately extract the immigration policy updates that occurred within the 7-day period ending today inclusive, and select one of them. You must evaluate the updates from the following resources: the Official IRCC X account (provided in the text), the Government of Canada Official Youtube Channel, CIC News, Global News, CBC News, Immigration News Canada, Immigrant Services Society of BC (ISSofBC), the Government of Canada Website, News: Department of Finance Canada, and the Program Delivery Updates (provided in the text). You must also evaluate the updates on the PNP programs from the following provinces, territories, and groups of provinces: British Columbia, Alberta, Saskatchewan, Manitoba, Ontario, Quebec, the 4 Atlantic provinces, Newfoundland and Labrador, and Yukon. Value each of these resources equally in your professional analysis. Your professional analysis may be revised and/or edited by a professional immigration consultant. Do not force an inclusion from every single source if it does not naturally fit the narrative flow. Do not analyze things that don't need analysis.
+4. **Strict Formatting Constraint:** The final Chinese WeChat article must not contain any formatting whatsoever. Do not use Markdown elements such as headers (#, ##), bold text, italics, bullet points, numbered lists, tables, or blockquotes. The entire output must be delivered as clean, unformatted plain text paragraphs.
+
+Please generate only the finalized plain text Chinese WeChat article.

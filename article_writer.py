@@ -359,45 +359,75 @@ def main() -> None:
 
     #print(f"\nSaved {len(results)} entries to {OUTPUT_FILE}")
 
-    output = "PDU\n\n"
+    pdu = ""
     for i in results:
-        output += "URL: " + i["url"] + "\n"
-        output += "Title: " + i["title"] + "\n"
+        pdu += "PROGRAM DELIVERY UPDATE STARTS HERE [\n\n"
+        pdu += "URL: " + i["url"] + "\n"
+        pdu += "Title: " + i["title"] + "\n"
         if i["code"] != "":
-            output += "Code: " + i["code"] + "\n"
-        output += "Date Created: " + i["date"] + "\n"
-        output += "Description: " + i["description"] + "\n"
+            pdu += "Code: " + i["code"] + "\n"
+        pdu += "Date Created: " + i["date"] + "\n"
+        pdu += "Description: " + i["description"] + "\n"
         if "new" in i["instructions"]:
-            output += "New instructions:\n"
+            pdu += "New instructions:\n"
             for j in range(len(i["instructions"]["new"])):
-                output += "New instruction " + str(j + 1) + " Text: " + i["instructions"]["new"][j]["text"] + "\n"
-                output += "New instruction " + str(j + 1) + " URL: " + i["instructions"]["new"][j]["url"] + "\n"
+                pdu += "New instruction " + str(j + 1) + " Text: " + i["instructions"]["new"][j]["text"] + "\n"
+                pdu += "New instruction " + str(j + 1) + " URL: " + i["instructions"]["new"][j]["url"] + "\n"
         if "updated" in i["instructions"]:
-            output += "Updated instructions:\n"
+            pdu += "Updated instructions:\n"
             for j in range(len(i["instructions"]["updated"])):
-                output += "Updated instruction " + str(j + 1) + " Text: " + i["instructions"]["updated"][j]["text"] + "\n"
-                output += "Updated instruction " + str(j + 1) + " URL: " + i["instructions"]["updated"][j]["url"] + "\n"
+                pdu += "Updated instruction " + str(j + 1) + " Text: " + i["instructions"]["updated"][j]["text"] + "\n"
+                pdu += "Updated instruction " + str(j + 1) + " URL: " + i["instructions"]["updated"][j]["url"] + "\n"
         if "deleted" in i["instructions"]:
-            output += "Deleted instructions:\n"
+            pdu += "Deleted instructions:\n"
             for j in range(len(i["instructions"]["deleted"])):
-                output += "Deleted instruction " + str(j + 1) + ": " + i["instructions"]["deleted"][j] + "\n"
-        output += "Date modified: " + date.fromisoformat(i["date_modified"]).strftime("%B %d, %Y") + "\n\n"
+                pdu += "Deleted instruction " + str(j + 1) + ": " + i["instructions"]["deleted"][j] + "\n"
+        pdu += "Date modified: " + date.fromisoformat(i["date_modified"]).strftime("%B %d, %Y") + "\n\n"
+        pdu += "] PROGRAM DELIVERY UPDATE ENDS HERE\n\n"
+    pdu = pdu[:-2]
+
+    x_posts = ""
 
     # 4. Append the contents of the linked Google Doc.
     try:
-        output += "X\n\n" + fetch_google_doc_text(GOOGLE_DOC_URL)
+        doc = fetch_google_doc_text(GOOGLE_DOC_URL)
+        ends_of_starts = [match.start() + 65 for match in re.finditer("X POST STARTS HERE \\[", doc)]
+        starts_of_ends = [match.start() - 6 for match in re.finditer("\\] X POST ENDS HERE", doc)]
+        for i in range(len(ends_of_starts)):
+            x_posts += "X POST STARTS HERE [\n\n"
+            x_posts += doc[ends_of_starts[i]:starts_of_ends[i]]
+            x_posts += "\n\n] X POST ENDS HERE\n\n"
+        x_posts = x_posts[:-2]
     except Exception as exc:
         print(f"         ERROR fetching Google Doc: {exc}")
+
+    with open('cleaned_example_articles.txt', 'r', encoding='utf-8') as file:
+        articles = file.read()
+
+    with open('guide.txt', 'r', encoding='utf-8') as file:
+        guide = file.read()
+
+    with open('prompt.txt', 'r', encoding='utf-8') as file:
+        prompt = file.read()
+    
+    prompt = prompt.replace("INSERT ARTICLES", articles)
+    prompt = prompt.replace("INSERT GUIDE", guide)
+    prompt = prompt.replace("INSERT X POSTS", x_posts)
+    prompt = prompt.replace("INSERT PDU", pdu)
+
+    print("PROMPT STARTS HERE [\n\n")
+    print(prompt)
+    print("\n\n] PROMPT ENDS HERE\n\n")
         
-    #client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    #response = client.models.generate_content(
-    #model="gemini-2.5-flash",
-    #contents="hello"
-    #)
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=prompt
+    )
 
-    #print(response.text)
-
-    print(output)
+    print("RESPONSE STARTS HERE [\n\n")
+    print(response.text)
+    print("\n\n] RESPONSE ENDS HERE")
 
 if __name__ == "__main__":
     main()
