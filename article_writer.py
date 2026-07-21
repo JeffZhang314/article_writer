@@ -415,19 +415,38 @@ def main() -> None:
     prompt = prompt.replace("INSERT X POSTS", x_posts)
     prompt = prompt.replace("INSERT PDU", pdu)
 
-    print("PROMPT STARTS HERE [\n\n")
     print(prompt)
-    print("\n\n] PROMPT ENDS HERE\n\n")
-        
+
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     response = client.models.generate_content(
     model="gemini-2.5-flash",
     contents=prompt
     )
 
-    print("RESPONSE STARTS HERE [\n\n")
-    print(response.text)
-    print("\n\n] RESPONSE ENDS HERE")
+    article_fragment = response.text.strip()
+    # Defensive cleanup in case the model wraps the fragment in a code
+    # fence despite being told not to.
+    if article_fragment.startswith("```"):
+        article_fragment = re.sub(r"^```[a-zA-Z]*\n", "", article_fragment)
+        article_fragment = re.sub(r"\n```$", "", article_fragment)
+    # Wrap the model's inline-styled fragment in a guaranteed-valid HTML
+    # document shell (charset + title are set here, not left to the model).
+    pos_newline = article_fragment.find("\n")
+    title = article_fragment[:pos_newline].strip()
+    body = article_fragment[pos_newline + 1:].strip()
+    article_html = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{title}</title>
+</head>
+<body style="margin:0; padding:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;">
+{body}
+</body>
+</html>
+"""
+    with open("article.html", "w", encoding="utf-8") as f:
+        f.write(article_html)
 
 if __name__ == "__main__":
     main()
