@@ -38,6 +38,6 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "Weekly WeChat Article"
-          to: kxu@cgicconsulting.com
+          to: kxu@cgicconsulting.com, anitachangvic@gmail.com
           from: ${{ secrets.EMAIL_USERNAME }}
           body: file://output.txt
