@@ -415,8 +415,6 @@ def main() -> None:
     prompt = prompt.replace("INSERT X POSTS", x_posts)
     prompt = prompt.replace("INSERT PDU", pdu)
 
-    print(prompt)
-
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     response = client.models.generate_content(
     model="gemini-2.5-flash",
@@ -434,6 +432,10 @@ def main() -> None:
     pos_newline = article_fragment.find("\n")
     title = article_fragment[:pos_newline].strip()
     body = article_fragment[pos_newline + 1:].strip()
+    print("TITLE:\n\n")
+    print(title + "\n\n")
+    print("PROMPT:\n\n")
+    print(prompt)
     article_html = f"""<!DOCTYPE html>
 <html>
 <head>
